@@ -4,27 +4,27 @@
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.0-red)
 ![Scikit-Learn](https://img.shields.io/badge/ScikitLearn-1.3-orange)
 ![SQLite](https://img.shields.io/badge/SQLite-3-lightgrey)
-![ROC-AUC](https://img.shields.io/badge/ROC--AUC-0.9537-brightgreen)
+![ROC-AUC](https://img.shields.io/badge/ROC--AUC-0.9538-brightgreen)
 
 ---
 
 ## Project Overview
 
 An end-to-end heart disease prediction system built on **630,000 patient records**.  
-This project combines a **SQLite3 data pipeline**, **domain-driven feature engineering**, and a **PyTorch ANN** to predict heart disease risk — outperforming a Logistic Regression baseline with a ROC-AUC of **0.9537**.
+This project combines a **SQLite3 data pipeline**, **domain-driven feature engineering**, and an improved **PyTorch ANN** (using One-Hot Encoding for categorical features and LeakyReLU activations) to predict heart disease risk — outperforming a Logistic Regression baseline with a ROC-AUC of **0.9538**.
 
 > In medical diagnosis, missing a disease patient (false negative) is far more dangerous than a false alarm.  
-> This model is optimised for **recall** using threshold tuning at 0.4 — achieving **91% recall** on the test set.
+> This model is optimised for **recall** using threshold tuning at 0.4 — achieving **91.35% recall** on the test set.
 
 ---
 
 ## Key Results
 
-| Metric | Logistic Regression (Baseline) | PyTorch ANN |
+| Metric | Logistic Regression (Baseline) | PyTorch ANN (Improved) |
 |--------|-------------------------------|-------------|
-| Accuracy | 88% | **89%** |
-| ROC-AUC | 0.9515 | **0.9537** |
-| Recall (Disease) | 0.88 | **0.91** |
+| Accuracy | 88% | **88.58%** |
+| ROC-AUC | 0.9515 | **0.9538** |
+| Recall (Disease) | 0.88 | **0.9135** |
 | Threshold | 0.5 | **0.4 (tuned)** |
 
 ---
@@ -86,6 +86,7 @@ Dropped zero-correlation features: `BP` (-0.01) and `FBS over 120` (0.03)
 ### 3. Preprocessing
 - `PowerTransformer` for skewed features: ST Depression, Cholesterol, chol_age_ratio
 - `StandardScaler` for normal features: Age, Max HR, age_maxHR_ratio, maxhr_st_interaction
+- `OneHotEncoder` for categorical columns (preventing invalid ordinal weight assumptions): Chest pain type, EKG results, Slope of ST, Thallium
 - `ColumnTransformer` pipeline ensures **no data leakage** during cross-validation
 - `stratify=y` in train/test split maintains class distribution
 
@@ -95,9 +96,9 @@ Dropped zero-correlation features: `BP` (-0.01) and `FBS over 120` (0.03)
 
 ### 5. PyTorch ANN Architecture
 ```
-Input (14 features)
-    → Linear(14 → 64) + BatchNorm + ReLU + Dropout(0.3)
-    → Linear(64 → 32) + BatchNorm + ReLU + Dropout(0.2)
+Input (23 features after One-Hot Encoding)
+    → Linear(23 → 64) + BatchNorm + LeakyReLU(0.1) + Dropout(0.3)
+    → Linear(64 → 32) + BatchNorm + LeakyReLU(0.1) + Dropout(0.2)
     → Linear(32 → 1) + Sigmoid
 Output (probability 0-1)
 ```
@@ -111,13 +112,13 @@ Key design decisions:
 ### 6. Evaluation & Threshold Tuning
 ```
 Threshold | Precision | Recall
-0.3       | 0.800     | 0.934
-0.4       | 0.836     | 0.910  ← Selected
-0.5       | 0.864     | 0.884
-0.6       | 0.889     | 0.852
-0.7       | 0.914     | 0.811
+0.3       | 0.8000    | 0.9340
+0.4       | 0.8305    | 0.9135  ← Selected
+0.5       | 0.8653    | 0.8827
+0.6       | 0.8890    | 0.8519
+0.7       | 0.9142    | 0.8113
 ```
-**Threshold 0.4 selected** — maximises recall to minimise missed diagnoses.
+**Threshold 0.4 selected** — maximises recall (91.35%) to minimise missed diagnoses.
 
 ---
 
