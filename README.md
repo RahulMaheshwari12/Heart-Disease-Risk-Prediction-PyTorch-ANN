@@ -55,11 +55,17 @@ This project combines a **SQLite3 data pipeline**, **domain-driven feature engin
 ```
 Heart-Disease-Risk-Prediction-PyTorch-ANN/
 │
-├── heart_disease_prediction.ipynb   # Main notebook
-├── heart_disease_dataset.xls        # Dataset
-├── heart_disease_ann.pth            # Saved PyTorch model weights
-├── preprocessor.pkl                 # Saved sklearn preprocessor
-└── README.md                        # Project documentation
+├── heart_disease_prediciton.ipynb   # Jupyter notebook (Data loading, SQL EDA, training)
+├── heart_disease_dataset.xls        # Source dataset (Excel format)
+├── heart.db                         # SQLite3 Database (contains 630,000 patient records)
+├── heart_disease_ann.pth            # Saved PyTorch model weights (LeakyReLU activation, 23 inputs)
+├── preprocessor.pkl                 # Saved sklearn ColumnTransformer (One-Hot + Power/Standard Scaler)
+├── app.py                           # Flask Web Application (real-time risk prediction)
+├── requirements.txt                 # Python project package dependencies
+├── templates/                       # HTML templates for Flask UI
+│   ├── index.html                   # Clinical inputs submission form (dark mode)
+│   └── result.html                  # Risk output display page (probability progress bar)
+└── README.md                        # Project documentation & results summary
 ```
 
 ---
