@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 72px;
+            margin-bottom: 20px;
+        }
+
+        .result-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .high-risk {
+            color: #ff4d4d;
+        }
+
+        .low-risk {
+            color: #4dff91;
+        }
+
+        .probability-box {
+            background: #2a2a2a;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 24px 0;
+        }
+
+        .probability-label {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .probability-value {
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .progress-bar-bg {
+            background: #3a3a3a;
+            border-radius: 100px;
+            height: 10px;
+            margin-top: 14px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 100px;
+            transition: width 1s ease;
+        }
+
+        .message {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            background: #ff4d4d;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #e03c3c;
+        }
+
+        .note {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        {% if result == 'High Risk' %}
+            <div class="result-icon">⚠️</div>
+            <div class="result-title high-risk">High Risk</div>
+            <div class="message">
+                The model predicts a <strong>high probability</strong> of heart disease.
+                Please consult a medical professional for proper diagnosis and treatment.
+            </div>
+            <div class="probability-box">
+                <div class="probability-label">Disease Probability</div>
+                <div class="probability-value high-risk">{{ probability }}%</div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"
+                         style="width: {{ probability }}%; background: #ff4d4d;">
+                    </div>
+                </div>
+            </div>
+
+        {% else %}
+            <div class="result-icon">✅</div>
+            <div class="result-title low-risk">Low Risk</div>
+            <div class="message">
+                The model predicts a <strong>low probability</strong> of heart disease.
+                Maintain a healthy lifestyle and continue regular checkups.
+            </div>
+            <div class="probability-box">
+                <div class="probability-label">Disease Probability</div>
+                <div class="probability-value low-risk">{{ probability }}%</div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"
+                         style="width: {{ probability }}%; background: #4dff91;">
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <a href="/" class="btn">← Predict Again</a>
+        <p class="note">⚠️ For educational purposes only. Not a substitute for medical advice.</p>
+
+    </div>
+</body>
+</html>
