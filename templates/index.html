@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Risk Predictor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f0f0f;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .container {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
+            padding: 40px;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ff4d4d;
+            margin-bottom: 8px;
+        }
+
+        p.subtitle {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 13px;
+            color: #aaa;
+            font-weight: 500;
+        }
+
+        input, select {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        input:focus, select:focus {
+            border-color: #ff4d4d;
+        }
+
+        select option {
+            background: #2a2a2a;
+        }
+
+        .btn {
+            margin-top: 28px;
+            width: 100%;
+            padding: 14px;
+            background: #ff4d4d;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #e03c3c;
+        }
+
+        .note {
+            margin-top: 16px;
+            font-size: 12px;
+            color: #555;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>❤️ Heart Disease Risk Predictor</h1>
+        <p class="subtitle">Enter patient details below to predict heart disease risk using a trained PyTorch ANN model.</p>
+
+        <form action="/predict" method="POST">
+            <div class="grid">
+
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" name="age" placeholder="e.g. 55" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Sex</label>
+                    <select name="sex">
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Chest Pain Type</label>
+                    <select name="cp">
+                        <option value="1">Type 1 — Typical Angina</option>
+                        <option value="2">Type 2 — Atypical Angina</option>
+                        <option value="3">Type 3 — Non-Anginal Pain</option>
+                        <option value="4">Type 4 — Asymptomatic</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Cholesterol (mg/dl)</label>
+                    <input type="number" name="chol" placeholder="e.g. 245" required>
+                </div>
+
+                <div class="form-group">
+                    <label>EKG Results</label>
+                    <select name="ekg">
+                        <option value="0">Normal</option>
+                        <option value="1">ST-T Abnormality</option>
+                        <option value="2">Left Ventricular Hypertrophy</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Max Heart Rate</label>
+                    <input type="number" name="maxhr" placeholder="e.g. 150" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Exercise Angina</label>
+                    <select name="angina">
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>ST Depression</label>
+                    <input type="number" step="0.1" name="stdep" placeholder="e.g. 1.5" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Slope of ST</label>
+                    <select name="slope">
+                        <option value="1">Upsloping</option>
+                        <option value="2">Flat</option>
+                        <option value="3">Downsloping</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Number of Vessels Fluoro</label>
+                    <select name="vessels">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Thallium</label>
+                    <select name="thallium">
+                        <option value="3">Normal (3)</option>
+                        <option value="6">Fixed Defect (6)</option>
+                        <option value="7">Reversible Defect (7)</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn">Predict Risk →</button>
+        </form>
+
+        <p class="note">⚠️ This tool is for educational purposes only. Not a substitute for medical advice.</p>
+    </div>
+</body>
+</html>
